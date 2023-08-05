@@ -9,6 +9,9 @@ logs
 # Dependency directories
 node_modules/
 
+# Output
+dist/
+
 # Optional npm cache directory
 .npm
 
