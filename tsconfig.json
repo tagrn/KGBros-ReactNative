@@ -6,7 +6,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
+    "esModuleInterop": true, //  import * as React from "react" -> import React from "react"
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
