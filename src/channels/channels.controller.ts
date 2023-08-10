@@ -1,5 +1,7 @@
 import { Controller, Get, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Channels')
 @Controller('workspaces/:url/channels')
 export class ChannelsController {
   @Get()

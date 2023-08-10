@@ -1,14 +1,27 @@
-import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
-import { SignupRequestDto } from './dtos/reqeusts/signup.reqeust.dto';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  UseInterceptors,
+} from '@nestjs/common';
+import { SignupRequestDto } from '../reqeusts/signup.reqeust.dto';
 import { UsersService } from './users.service';
+import { ApiTags } from '@nestjs/swagger';
+import { User } from 'src/decorators/user.decorator';
+import { UndefinedToNullInterceptor } from 'src/interceptors/undefined.interceptor';
 
+@UseInterceptors(UndefinedToNullInterceptor)
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  async getUser(@Req() req) {
-    return req.user;
+  async getUser(@User() user) {
+    return user;
   }
 
   @Post('singup')
