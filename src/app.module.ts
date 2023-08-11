@@ -17,6 +17,7 @@ import { Mentions } from './entities/Mentions';
 import { Channels } from './entities/Channels';
 import { ChannelChats } from './entities/ChannelChats';
 import { ChannelMembers } from './entities/ChannelMembers';
+import { AuthModule } from './auth/auth.module';
 
 const getThirdPartySecrets = async () => {
   // 서드파티의 환경변수 가져오기. axios 등 사용.
@@ -30,6 +31,7 @@ const getThirdPartySecrets = async () => {
       envFilePath: ['.env', '.env.local', '.env.dev', '.env.prod'],
       load: [getThirdPartySecrets],
     }),
+    AuthModule,
     UsersModule,
     WorkspacesModule,
     DmsModule,

@@ -6,6 +6,7 @@ import {
   Post,
   Req,
   Res,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -14,6 +15,10 @@ import { UndefinedToNullInterceptor } from 'src/interceptors/undefined.intercept
 import { SignupRequest } from './reqeusts/signup.reqeust';
 import { UsersService } from './users.service';
 import { SignupDto } from './dtos/signup.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { LocalAuthGuard } from 'src/auth/local-auth.guard';
+import { NotLoggedInGuard } from 'src/auth/not-logged-in.guard';
+import { LoggedInGuard } from 'src/auth/logged-in.guard';
 
 @UseInterceptors(UndefinedToNullInterceptor)
 @ApiTags('Users')
@@ -26,6 +31,7 @@ export class UsersController {
     return user;
   }
 
+  @UseGuards(NotLoggedInGuard)
   @Post('singup')
   async signup(@Body() signupRequest: SignupRequest) {
     Logger.error(signupRequest);
@@ -34,11 +40,13 @@ export class UsersController {
     );
   }
 
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Req() req) {
     return req.user;
   }
 
+  @UseGuards(LoggedInGuard)
   @Post('logout')
   async logout(@Req() req, @Res() res) {
     req.logout();
