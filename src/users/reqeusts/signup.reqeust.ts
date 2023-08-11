@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { SignupDto } from '../users/dtos/signup.dto';
+import { SignupDto } from '../dtos/signup.dto';
 
-export class SignupRequestDto {
+export class SignupRequest {
   @ApiProperty({
     example: 'tagrn@example.com',
     required: true,
@@ -17,8 +17,4 @@ export class SignupRequestDto {
     required: true,
   })
   public password: string;
-
-  toSignupDto() {
-    return new SignupDto(this.email, this.nickname, this.password);
-  }
 }

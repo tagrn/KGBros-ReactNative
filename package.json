@@ -27,10 +27,13 @@
     "@nestjs/swagger": "^7.1.8",
     "@nestjs/typeorm": "^10.0.0",
     "@types/morgan": "^1.9.4",
+    "bcrypt": "^5.1.0",
     "morgan": "^1.10.0",
+    "mysql2": "^3.6.0",
     "nest-morgan": "^2.0.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "typeorm": "^0.3.17"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

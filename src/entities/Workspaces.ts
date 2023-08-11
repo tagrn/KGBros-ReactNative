@@ -20,7 +20,7 @@ import { Users } from './Users';
 @Index('name', ['name'], { unique: true })
 @Index('url', ['url'], { unique: true })
 @Index('OwnerId', ['OwnerId'], {})
-@Entity({ schema: 'sleact', name: 'workspaces' })
+@Entity()
 export class Workspaces {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
@@ -55,7 +55,7 @@ export class Workspaces {
   @OneToMany(
     () => WorkspaceMembers,
     (workspacemembers) => workspacemembers.Workspace,
-    { cascade: ['insert'] },
+    { cascade: ['insert'] }
   )
   WorkspaceMembers: WorkspaceMembers[];
 

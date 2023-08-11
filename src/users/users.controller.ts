@@ -2,16 +2,18 @@ import {
   Body,
   Controller,
   Get,
+  Logger,
   Post,
   Req,
   Res,
   UseInterceptors,
 } from '@nestjs/common';
-import { SignupRequestDto } from '../reqeusts/signup.reqeust.dto';
-import { UsersService } from './users.service';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from 'src/decorators/user.decorator';
 import { UndefinedToNullInterceptor } from 'src/interceptors/undefined.interceptor';
+import { SignupRequest } from './reqeusts/signup.reqeust';
+import { UsersService } from './users.service';
+import { SignupDto } from './dtos/signup.dto';
 
 @UseInterceptors(UndefinedToNullInterceptor)
 @ApiTags('Users')
@@ -25,8 +27,11 @@ export class UsersController {
   }
 
   @Post('singup')
-  async signup(@Body() signupRequestDto: SignupRequestDto) {
-    this.usersService.signup(signupRequestDto.toSignupDto());
+  async signup(@Body() signupRequest: SignupRequest) {
+    Logger.error(signupRequest);
+    await this.usersService.signup(
+      SignupDto.makeFromSignupRequest(signupRequest)
+    );
   }
 
   @Post('login')
