@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import session from 'express-session';
 import passport from 'passport';
 
 declare const module: any;
@@ -12,6 +13,16 @@ async function bootstrap() {
   });
   const port = process.env.PORT || 3000;
   app.useGlobalPipes(new ValidationPipe());
+  app.use(
+    session({
+      resave: false,
+      saveUninitialized: false,
+      secret: process.env.COOKIE_SECRET,
+      cookie: {
+        httpOnly: true,
+      },
+    })
+  );
   app.use(passport.initialize());
   app.use(passport.session());
   const swaggerConfig = new DocumentBuilder()

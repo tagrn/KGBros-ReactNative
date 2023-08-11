@@ -9,7 +9,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/decorators/user.decorator';
 import { UndefinedToNullInterceptor } from 'src/interceptors/undefined.interceptor';
 import { SignupRequest } from './reqeusts/signup.reqeust';
@@ -42,14 +42,14 @@ export class UsersController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Req() req) {
-    return req.user;
+  async login(@Body() user: SignupRequest) {
+    return user;
   }
 
+  @ApiCookieAuth('connect.sid')
   @UseGuards(LoggedInGuard)
   @Post('logout')
-  async logout(@Req() req, @Res() res) {
-    req.logout();
+  async logout(@Res() res) {
     res.clearCookie('connect.sid', { httpOnly: true });
     res.send('ok');
   }

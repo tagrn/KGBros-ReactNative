@@ -43,7 +43,7 @@ const getThirdPartySecrets = async () => {
       username: process.env.USERNAME,
       password: process.env.PASSWORD,
       database: process.env.DATABASE,
-      synchronize: true,
+      synchronize: false,
       entities: [
         Users,
         DMs,
