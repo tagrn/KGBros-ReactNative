@@ -4,6 +4,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { globalMiddleware } from './app.middleware';
 import { GlobalGuard } from './app.guard';
 import { GlobalInterceptor } from './app.interceptor';
+import { GlobalPipe } from './app.pipe';
+import { GlobalExceptionFilter } from './app.exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,6 +19,8 @@ async function bootstrap() {
   app.use(globalMiddleware);
   app.useGlobalGuards(new GlobalGuard());
   app.useGlobalInterceptors(new GlobalInterceptor());
+  app.useGlobalPipes(new GlobalPipe());
+  app.useGlobalFilters(new GlobalExceptionFilter());
 
   await app.listen(3000);
 }
