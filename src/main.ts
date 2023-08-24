@@ -1,46 +1,23 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
-import session from 'express-session';
-import passport from 'passport';
-
-declare const module: any;
+import { globalMiddleware } from './app.middleware';
+import { GlobalGuard } from './app.guard';
+import { GlobalInterceptor } from './app.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    logger: ['error', 'warn'],
-  });
-  const port = process.env.PORT || 3000;
-  app.useGlobalPipes(new ValidationPipe());
-  app.use(
-    session({
-      resave: false,
-      saveUninitialized: false,
-      secret: process.env.COOKIE_SECRET,
-      cookie: {
-        httpOnly: true,
-      },
-    })
-  );
-  app.use(passport.initialize());
-  app.use(passport.session());
-  const swaggerConfig = new DocumentBuilder()
-    .setTitle('Slack CloneCoding')
-    .setDescription('Nest.js 향상을 위한 클론코딩 프로젝트')
-    .setVersion(process.env.VERSION)
-    .addCookieAuth('connect.sid')
+  const app = await NestFactory.create(AppModule);
+  const config = new DocumentBuilder()
+    .setTitle('Practice')
+    .setDescription('Description')
+    .setVersion('1.0')
     .build();
-  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+  app.use(globalMiddleware);
+  app.useGlobalGuards(new GlobalGuard());
+  app.useGlobalInterceptors(new GlobalInterceptor());
 
-  await app.listen(port);
-  console.log(`Application Start port - ${port}`);
-
-  if (module.hot) {
-    module.hot.accept();
-    module.hot.dispose(() => app.close());
-  }
+  await app.listen(3000);
 }
-
 bootstrap();
